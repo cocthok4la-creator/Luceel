@@ -17,7 +17,3 @@ Your files and resume are processed in your browser. They are not uploaded to a 
 ## Feedback
 
 Found a bug or have an idea? [Open an issue](https://github.com/cocthok4la-creator/Luceel/issues).
-
-## Run locally
-
-It is a single static page. Open `index.html` in your browser.
