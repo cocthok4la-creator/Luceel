@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
 <meta name="p:domain_verify" content="3fa93a38f7f1b59c1dd23b197a37a6fd"/>
-<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-M627S2WR"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EEJ9ML5SY4"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
+
+  gtag('config', 'G-EEJ9ML5SY4', {send_page_view:false});
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -851,7 +854,7 @@ select option:checked{background:var(--accent);color:var(--accent-ink)}
    </div>
    <ul class="princ">
     <li><h3>Your data stays with you</h3><p>No accounts and no storage on our side. What you type is kept in your own browser.</p></li>
-    <li><h3>No tricks</h3><p>No watermarks, trial timers, upsell screens or tracking scripts on these pages.</p></li>
+    <li><h3>No tricks</h3><p>No watermarks, trial timers or upsell screens. Only anonymous visit counts.</p></li>
     <li><h3>Honest tools</h3><p>Checks say what they measure. A pass is not a promise, and the page says so.</p></li>
     <li><h3>Plain design</h3><p>Calm typography and clear controls, so the resume is the thing you look at.</p></li>
    </ul>
@@ -875,7 +878,7 @@ select option:checked{background:var(--accent);color:var(--accent-ink)}
     <li>QR settings links hold only colors and styles, never your content or logo.</li>
     <li>Luceel Size keeps your photos and PDFs in memory only while the page is open. It does not save them.</li>
     <li>The site loads fonts from Google Fonts. When you open the QR code page, or make a PDF smaller, it also loads code libraries from cdnjs. Those services can see your IP address and browser details, as with most websites.</li>
-    <li>There are no accounts, ads or tracking on this site, and we do not set cookies.</li>
+    <li>There are no accounts or ads on this site. We use Google Analytics to count visits and see which tools are used. It sets cookies and receives your IP address, browser and the name of the page you open, but never what you type or the files you add. You can block it with your browser’s privacy settings or an ad blocker.</li>
     <li>These tools are not aimed at children under 13, and we do not knowingly collect anything from anyone.</li>
     <li>Links to other sites, such as our social profiles, follow those sites’ own privacy policies.</li>
     <li>If you email us, we use your message only to reply to you.</li>
@@ -895,7 +898,7 @@ select option:checked{background:var(--accent);color:var(--accent-ink)}
     <li>We may update these terms from time to time.</li>
    </ul></article>
   </div>
-  <p class="legal-note">Last updated 11 November 2026. Questions? Use “Get support / Report a bug / Give feedback” in the Help center. You may get a reply within 72 hours, on business days.</p>
+  <p class="legal-note">Last updated 17 November 2026. Questions? Use “Get support / Report a bug / Give feedback” in the Help center. You may get a reply within 72 hours, on business days.</p>
  </section>
  <section class="block" id="licences" aria-labelledby="lic-h">
   <div class="sec-head"><h2 id="lic-h">Licences</h2><p>Open-source and third-party material used on this site.</p></div>
@@ -3134,6 +3137,8 @@ function setChrome(ctx){
   $$(".brand use").forEach(function(u){u.setAttribute("href",ctx==="home"?"#i-logo-home":ctx==="qr"?"#i-logo-qr":ctx==="size"?"#i-logo-size":"#i-logo")});
   $("#mainNav").innerHTML=c.nav.map(navLink).join("");$("#ftLinks").innerHTML=c.foot.map(footLink).join("")
 }
+var lastTrk="",TRK={home:["/","Home"],resume:["/resume","Resume"],build:["/resume-builder","Resume builder"],qr:["/qr-code-generator","QR code generator"],size:["/image-resizer","Image resizer"],track:["/job-tracker","Job tracker"],share:["/shared-resume","Shared resume"]};
+function track(name){if(name===lastTrk||!TRK[name])return;lastTrk=name;try{if(typeof gtag==="function")gtag("event","page_view",{page_path:TRK[name][0],page_location:location.origin+TRK[name][0],page_title:TRK[name][1]})}catch(e){}}
 function playIn(nv){nv.classList.remove("view-in");void nv.offsetWidth;nv.classList.add("view-in");
   nv.addEventListener("animationend",function f(e){if(e.target!==nv)return;nv.classList.remove("view-in");nv.removeEventListener("animationend",f)})}
 function viewLoader(nv,ms){var old=nv.querySelector(":scope > .vload");if(old)old.remove();
@@ -3144,6 +3149,7 @@ function viewLoader(nv,ms){var old=nv.querySelector(":scope > .vload");if(old)ol
   (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){setTimeout(done,Math.max(0,ms-(performance.now()-t0)))});
   setTimeout(done,900)}
 function setView(name){
+  track(name);
   setIcon(name==="home"?"home":name==="qr"?"qr":name==="size"?"size":"resume");
   var VW=["home","resume","qr","size","build","track","share"],prev=null;
   VW.forEach(function(n){if(!$("#v-"+n).hidden)prev=n});
