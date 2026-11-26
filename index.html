@@ -1426,6 +1426,7 @@ input[data-dp]:disabled{opacity:.5;cursor:not-allowed}
 .dd-b,.dd-l,.dd-l li{box-sizing:border-box}
 .dd-n{position:absolute!important;opacity:0;pointer-events:none;width:1px!important;height:1px!important;min-height:0!important;padding:0!important;border:0!important}
 .dd-b{display:flex;align-items:center;justify-content:space-between;gap:.6rem;width:100%;min-height:2.75rem;padding:.7rem .8rem;font:inherit;font-size:1rem;text-align:left;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:10px;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.dd-b>*{pointer-events:none}
 .dd-b>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .panel .dd-b{background:var(--bg)}
 .dd-b:hover{border-color:var(--accent)}
@@ -4225,7 +4226,7 @@ window.__ddSync=syncAll;
 var q=0;function later(){clearTimeout(q);q=setTimeout(syncAll,0)}
 ["click","input","change"].forEach(function(t){document.addEventListener(t,later,true)});
 window.addEventListener("hashchange",later);
-document.addEventListener("click",function(e){if(openW&&!openW.contains(e.target))openW._c()});
+document.addEventListener("click",function(e){if(openW&&e.composedPath().indexOf(openW)<0)openW._c()});
 new MutationObserver(function(ml){ml.forEach(function(m){[].forEach.call(m.addedNodes,scan)})}).observe(document.body,{childList:true,subtree:true});
 scan(document.body)
 })();
