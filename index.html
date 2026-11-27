@@ -781,6 +781,26 @@ select option:checked{background:var(--accent);color:var(--accent-ink)}
 @supports (height:100dvh){.pvcol{max-height:calc(100dvh - 5.5rem)}}
 @media (horizontal-viewport-segments:2){.wrap{margin-left:0;margin-right:0;max-width:env(viewport-segment-width 0 0,100%)}}
 
+/* New tools: exam presets, PDF merge, cover letter */
+#v-size .pchip{font:500 .9rem var(--sans);padding:.4rem .85rem;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--text);cursor:pointer;min-height:2.25rem;transition:border-color .15s,background .15s}
+#v-size .pchip:hover{border-color:var(--accent)}
+#v-size .pchip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.pmlist{list-style:none;margin:1rem 0;padding:0;display:grid;gap:.6rem}
+.pmlist li{border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:.75rem .9rem;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.5rem .75rem;align-items:center}
+.pmlist .nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pmlist .nm small{color:var(--muted);font-weight:400;margin-left:.4rem}
+.pmlist .ctl{display:flex;gap:.3rem}
+.pmlist .ctl button{min-width:2.25rem;min-height:2.25rem;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text);cursor:pointer;font:inherit}
+.pmlist .ctl button:hover:not(:disabled){border-color:var(--accent)}
+.pmlist .ctl button:disabled{opacity:.4;cursor:not-allowed}
+.pmlist .meta{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:.6rem}
+@media (max-width:30rem){.pmlist .meta{grid-template-columns:minmax(0,1fr)}}
+#cvOut{min-height:22rem;line-height:1.55}
+#phCv{max-width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:#e9ecec;margin:1rem 0 0;display:block}
+#phOut .acts{margin-top:1rem}#phOpts{margin-top:1rem}
+.qlinks,.qlinks+.qlinks{border:1px solid var(--line);border-radius:12px;padding:.7rem .9rem;margin-bottom:.9rem;background:var(--bg)}
+.qlinks summary{cursor:pointer;font-weight:600}
+.qa{margin:.8rem 0}.qa b{display:block;margin-bottom:.35rem;font-weight:600}.qa textarea{min-height:4rem}
 </style>
 <script>try{var d=document.documentElement,t=localStorage.getItem("lr-theme");if(t)d.setAttribute("data-theme",t);var z=localStorage.getItem("lr-size");if(z)d.setAttribute("data-size",z)}catch(e){}</script>
 </head>
@@ -1004,6 +1024,8 @@ select option:checked{background:var(--accent);color:var(--accent-ink)}
     <button class="tab" role="tab" id="t-wifi" aria-controls="p-wifi" aria-selected="false" tabindex="-1">Wi-Fi</button>
    </div>
    <div role="tabpanel" id="p-url" aria-labelledby="t-url">
+    <details class="qlinks"><summary>Quick links: WhatsApp chat, Google review, Google Maps</summary><div class="field" style="margin-top:.75rem"><label for="qlT">Link type</label><select id="qlT"><option value="wa">WhatsApp chat</option><option value="rv">Google review</option><option value="mp">Google Maps place</option></select></div><div class="field"><label for="qlA" id="qlAL">Phone number with country code</label><input type="text" id="qlA" autocomplete="off" placeholder="919876543210"></div><div class="field" id="qlMW"><label for="qlM">Pre-filled message (optional)</label><input type="text" id="qlM" autocomplete="off"></div><p class="hint" id="qlH"></p><p class="err" id="qlE" role="alert"></p><div class="acts"><button type="button" class="btn primary" id="qlGo">Use this link in the QR code</button></div></details>
+    <details class="qlinks"><summary>Scan a QR code from a photo or the camera</summary><div class="acts" style="margin-top:.75rem"><label class="btn" for="qsF">Choose a photo</label><input type="file" id="qsF" accept="image/*" hidden><button type="button" class="btn" id="qsC">Use camera</button></div><video id="qsV" muted playsinline hidden style="max-width:100%;border-radius:10px;margin-top:.7rem"></video><p class="hint" id="qsR" role="status"></p></details>
     <div class="field"><label for="url">Website address</label>
      <input type="text" id="url" inputmode="url" autocapitalize="none" autocomplete="off" spellcheck="false" value="example.com/menu" placeholder="example.com/menu" aria-describedby="url-h url-e">
      <p class="hint" id="url-h">If you leave out https://, we add it for you.</p><p class="err" id="url-e"></p></div>
@@ -1102,8 +1124,8 @@ select option:checked{background:var(--accent);color:var(--accent-ink)}
     <button class="btn" id="cpLink"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>Copy settings link</button>
    </div>
    <p class="hint">PNG suits screens. SVG stays sharp at any size. The PDF holds a high-resolution image of the code on an A4 page. The settings link restores colors and styles only, never your content or logo.</p>
-   <div class="field" style="margin-top:1.25rem"><label for="tpl">Print template (A4 PDF)</label><select id="tpl"><option value="poster">Poster with frame and headline</option><option value="tent">Table tent</option><option value="card">Business cards, 10 per page</option><option value="stick">Sticker sheet, 24 per page</option></select></div>
-   <div class="field"><label for="ttl">Small line of text (optional)</label><input type="text" id="ttl" placeholder="e.g. Open daily, 9 to 9" maxlength="48" autocomplete="off"><p class="hint">Print templates use plain Latin letters and numbers only.</p></div>
+   <div class="field" style="margin-top:1.25rem"><label for="tpl">Print template (A4 PDF)</label><select id="tpl"><option value="pay">Scan to pay poster (UPI)</option><option value="poster">Poster with frame and headline</option><option value="tent">Table tent</option><option value="card">Business cards, 10 per page</option><option value="stick">Sticker sheet, 24 per page</option></select></div>
+   <div class="field"><label for="ttl">Small line of text (shop name on the pay poster)</label><input type="text" id="ttl" placeholder="e.g. Open daily, 9 to 9" maxlength="48" autocomplete="off"><p class="hint">Print templates use plain Latin letters and numbers only.</p></div>
    <div class="acts"><button class="btn primary" id="dlTpl" disabled>Download template</button><button class="btn" id="dlTest" disabled>Print test sheet</button></div>
   </aside>
  </section>
@@ -1152,10 +1174,12 @@ select option:checked{background:var(--accent);color:var(--accent-ink)}
  <section class="block" id="sz-tool" aria-labelledby="sz-tool-h">
   <div class="sec-head"><h2 id="sz-tool-h">Choose a tool</h2><p>Set the size you need, add your file and download the result.</p></div>
   <div class="panel">
-   <div class="tabs" role="tablist" aria-label="Size tools" id="szTabs"><button type="button" class="tab" role="tab" id="szt-img" aria-selected="true" aria-controls="szp-img" tabindex="0">Photo to size</button><button type="button" class="tab" role="tab" id="szt-mk" aria-selected="false" aria-controls="szp-mk" tabindex="-1">Images to PDF</button><button type="button" class="tab" role="tab" id="szt-pdf" aria-selected="false" aria-controls="szp-pdf" tabindex="-1">PDF to size</button></div>
-   <div role="tabpanel" id="szp-img" aria-labelledby="szt-img"><label class="drop" id="szDrop-img" for="szFile-img"><svg class="ic" aria-hidden="true"><use href="#i-upload"/></svg><b>Choose a photo or drop it here</b><span>JPG, PNG, WebP, GIF, BMP or AVIF, up to 60 MB</span><input id="szFile-img" type="file" accept="image/*"></label><div class="szfile" id="szFileInfo-img" hidden></div><div class="field"><label for="szT-img">Maximum file size</label><div class="inl"><input id="szT-img" type="number" inputmode="decimal" min="1" step="any" value="50"><select id="szU-img" aria-label="Unit"><option value="KB">KB</option><option value="MB">MB</option></select></div><div class="chips" role="group" aria-label="Common sizes"><button type="button" class="chip" data-k="img" data-v="20" aria-pressed="false">20 KB</button><button type="button" class="chip" data-k="img" data-v="50" aria-pressed="false">50 KB</button><button type="button" class="chip" data-k="img" data-v="100" aria-pressed="false">100 KB</button><button type="button" class="chip" data-k="img" data-v="200" aria-pressed="false">200 KB</button><button type="button" class="chip" data-k="img" data-v="500" aria-pressed="false">500 KB</button></div><p class="hint">1 KB is counted as 1,000 bytes, so the file also fits sites that count 1,024.</p></div><div class="szgrid"><div class="field"><label for="szFmt-img">Save as</label><select id="szFmt-img"><option value="image/jpeg">JPEG · best for photos</option><option value="image/webp">WebP · smaller files</option><option value="image/png">PNG · keeps transparency</option></select><p class="hint">JPEG suits photos. PNG keeps see-through areas.</p></div><div class="field" id="szMinF-img"><label for="szMin-img">Minimum size in KB <span class="muted">(optional)</span></label><input id="szMin-img" type="number" inputmode="decimal" min="1" step="any" placeholder="None"></div></div><div class="field"><label for="szMode-img">Dimensions</label><select id="szMode-img"><option value="keep">Keep original shape and size</option><option value="exact">Set exact width and height</option></select><p class="hint">Photos are only made smaller in pixels when the size limit needs it.</p></div><div id="szDims-img" hidden><div class="szgrid"><div class="field"><label for="szW-img">Width (px)</label><input id="szW-img" type="number" inputmode="numeric" min="16" max="10000" step="1"></div><div class="field"><label for="szH-img">Height (px)</label><input id="szH-img" type="number" inputmode="numeric" min="16" max="10000" step="1"></div><div class="field"><label for="szFit-img">How to fit</label><select id="szFit-img"><option value="crop">Crop to fill the exact size</option><option value="inside">Fit inside, keep the shape</option></select></div></div></div><p class="err" id="szErr-img" role="alert"></p><div class="szgo"><button type="button" class="btn primary" id="szGo-img" disabled>Resize photo</button></div><p class="szmsg" id="szMsg-img" role="status" aria-live="polite"></p><div class="szres" id="szRes-img" hidden></div></div>
+   <div class="tabs" role="tablist" aria-label="Size tools" id="szTabs"><button type="button" class="tab" role="tab" id="szt-img" aria-selected="true" aria-controls="szp-img" tabindex="0">Photo to size</button><button type="button" class="tab" role="tab" id="szt-mk" aria-selected="false" aria-controls="szp-mk" tabindex="-1">Images to PDF</button><button type="button" class="tab" role="tab" id="szt-pdf" aria-selected="false" aria-controls="szp-pdf" tabindex="-1">PDF to size</button><button type="button" class="tab" role="tab" id="szt-pm" aria-selected="false" aria-controls="szp-pm" tabindex="-1">Merge &amp; split PDF</button><button type="button" class="tab" role="tab" id="szt-ph" aria-selected="false" aria-controls="szp-ph" tabindex="-1">Photo &amp; document tools</button></div>
+   <div role="tabpanel" id="szp-img" aria-labelledby="szt-img"><label class="drop" id="szDrop-img" for="szFile-img"><svg class="ic" aria-hidden="true"><use href="#i-upload"/></svg><b>Choose a photo or drop it here</b><span>JPG, PNG, WebP, GIF, BMP or AVIF, up to 60 MB</span><input id="szFile-img" type="file" accept="image/*"></label><div class="szfile" id="szFileInfo-img" hidden></div><div class="field"><span class="lbl">Exam presets</span><div class="chips" role="group" aria-label="Exam presets" id="szPre"><button type="button" class="pchip" data-p="photo" aria-pressed="false">Photo 3.5 × 4.5 cm · 20–50 KB</button><button type="button" class="pchip" data-p="p2" aria-pressed="false">Photo 200 × 230 px · 20–50 KB</button><button type="button" class="pchip" data-p="sig" aria-pressed="false">Signature 140 × 60 px · up to 20 KB</button></div><p class="hint">One tap fills the size, dimensions and format. Forms differ, so check the numbers in your own notification.</p></div><div class="field"><label for="szT-img">Maximum file size</label><div class="inl"><input id="szT-img" type="number" inputmode="decimal" min="1" step="any" value="50"><select id="szU-img" aria-label="Unit"><option value="KB">KB</option><option value="MB">MB</option></select></div><div class="chips" role="group" aria-label="Common sizes"><button type="button" class="chip" data-k="img" data-v="20" aria-pressed="false">20 KB</button><button type="button" class="chip" data-k="img" data-v="50" aria-pressed="false">50 KB</button><button type="button" class="chip" data-k="img" data-v="100" aria-pressed="false">100 KB</button><button type="button" class="chip" data-k="img" data-v="200" aria-pressed="false">200 KB</button><button type="button" class="chip" data-k="img" data-v="500" aria-pressed="false">500 KB</button></div><p class="hint">1 KB is counted as 1,000 bytes, so the file also fits sites that count 1,024.</p></div><div class="szgrid"><div class="field"><label for="szFmt-img">Save as</label><select id="szFmt-img"><option value="image/jpeg">JPEG · best for photos</option><option value="image/webp">WebP · smaller files</option><option value="image/png">PNG · keeps transparency</option></select><p class="hint">JPEG suits photos. PNG keeps see-through areas.</p></div><div class="field" id="szMinF-img"><label for="szMin-img">Minimum size in KB <span class="muted">(optional)</span></label><input id="szMin-img" type="number" inputmode="decimal" min="1" step="any" placeholder="None"></div></div><div class="field"><label for="szMode-img">Dimensions</label><select id="szMode-img"><option value="keep">Keep original shape and size</option><option value="exact">Set exact width and height</option></select><p class="hint">Photos are only made smaller in pixels when the size limit needs it.</p></div><div id="szDims-img" hidden><div class="szgrid"><div class="field"><label for="szW-img">Width (px)</label><input id="szW-img" type="number" inputmode="numeric" min="16" max="10000" step="1"></div><div class="field"><label for="szH-img">Height (px)</label><input id="szH-img" type="number" inputmode="numeric" min="16" max="10000" step="1"></div><div class="field"><label for="szFit-img">How to fit</label><select id="szFit-img"><option value="crop">Crop to fill the exact size</option><option value="inside">Fit inside, keep the shape</option></select></div></div></div><p class="err" id="szErr-img" role="alert"></p><div class="szgo"><button type="button" class="btn primary" id="szGo-img" disabled>Resize photo</button></div><p class="szmsg" id="szMsg-img" role="status" aria-live="polite"></p><div class="szres" id="szRes-img" hidden></div></div>
    <div role="tabpanel" id="szp-mk" aria-labelledby="szt-mk" hidden><label class="drop" id="szDrop-mk" for="szFile-mk"><svg class="ic" aria-hidden="true"><use href="#i-upload"/></svg><b>Choose images or drop them here</b><span>JPG, PNG, WebP, GIF, BMP or AVIF. Add as many as you need, up to 40.</span><input id="szFile-mk" type="file" accept="image/*" multiple></label><ul class="szlist" id="szList" aria-label="Images in your PDF"></ul><p class="szcount" id="szCount-mk" aria-live="polite"></p><div class="szgrid"><div class="field"><label for="szPage-mk">Page size</label><select id="szPage-mk"><option value="fit">Same shape as each image</option><option value="a4">A4</option><option value="letter">US Letter</option></select></div><div class="field" id="szMarF-mk"><label for="szMar-mk">Margin</label><select id="szMar-mk"><option value="0">None</option><option value="10" selected>Small (10 mm)</option><option value="20">Medium (20 mm)</option></select></div></div><div class="field"><label for="szT-mk">Maximum PDF size (optional)</label><div class="inl"><input id="szT-mk" type="number" inputmode="decimal" min="1" step="any" value="" placeholder="No limit"><select id="szU-mk" aria-label="Unit"><option value="KB">KB</option><option value="MB">MB</option></select></div><div class="chips" role="group" aria-label="Common sizes"><button type="button" class="chip" data-k="mk" data-v="20" aria-pressed="false">20 KB</button><button type="button" class="chip" data-k="mk" data-v="50" aria-pressed="false">50 KB</button><button type="button" class="chip" data-k="mk" data-v="100" aria-pressed="false">100 KB</button><button type="button" class="chip" data-k="mk" data-v="200" aria-pressed="false">200 KB</button><button type="button" class="chip" data-k="mk" data-v="500" aria-pressed="false">500 KB</button></div><p class="hint">1 KB is counted as 1,000 bytes, so the file also fits sites that count 1,024.</p></div><p class="err" id="szErr-mk" role="alert"></p><div class="szgo"><button type="button" class="btn primary" id="szGo-mk" disabled>Create PDF</button></div><p class="szmsg" id="szMsg-mk" role="status" aria-live="polite"></p><div class="szres" id="szRes-mk" hidden></div></div>
    <div role="tabpanel" id="szp-pdf" aria-labelledby="szt-pdf" hidden><label class="drop" id="szDrop-pdf" for="szFile-pdf"><svg class="ic" aria-hidden="true"><use href="#i-upload"/></svg><b>Choose a PDF or drop it here</b><span>PDF files up to 100 MB and 80 pages</span><input id="szFile-pdf" type="file" accept="application/pdf,.pdf"></label><div class="szfile" id="szFileInfo-pdf" hidden></div><div class="field"><label for="szT-pdf">Maximum file size</label><div class="inl"><input id="szT-pdf" type="number" inputmode="decimal" min="1" step="any" value="200"><select id="szU-pdf" aria-label="Unit"><option value="KB">KB</option><option value="MB">MB</option></select></div><div class="chips" role="group" aria-label="Common sizes"><button type="button" class="chip" data-k="pdf" data-v="20" aria-pressed="false">20 KB</button><button type="button" class="chip" data-k="pdf" data-v="50" aria-pressed="false">50 KB</button><button type="button" class="chip" data-k="pdf" data-v="100" aria-pressed="false">100 KB</button><button type="button" class="chip" data-k="pdf" data-v="200" aria-pressed="false">200 KB</button><button type="button" class="chip" data-k="pdf" data-v="500" aria-pressed="false">500 KB</button></div><p class="hint">1 KB is counted as 1,000 bytes, so the file also fits sites that count 1,024.</p></div><p class="hint" style="margin-top:-.5rem;margin-bottom:1.25rem">Each page is turned into a picture to reach the size. Pages keep their size, but text can no longer be selected or searched. Keep your original file.</p><p class="err" id="szErr-pdf" role="alert"></p><div class="szgo"><button type="button" class="btn primary" id="szGo-pdf" disabled>Make PDF smaller</button></div><p class="szmsg" id="szMsg-pdf" role="status" aria-live="polite"></p><div class="szres" id="szRes-pdf" hidden></div></div>
+   <div role="tabpanel" id="szp-ph" aria-labelledby="szt-ph" hidden><div class="field"><label for="phTool">Tool</label><select id="phTool"><option value="stamp">Name and date on a photo</option><option value="sig">Signature cleaner (transparent PNG)</option><option value="pass">Passport photos on an A4 sheet</option><option value="scan">Document scanner (clean up, save as PDF)</option><option value="heic">HEIC to JPG</option><option value="pdfimg">PDF to images</option><option value="calc">cm, inch and pixel calculator</option></select></div><label class="drop" id="phDrop" for="szFile-ph"><svg class="ic" aria-hidden="true"><use href="#i-upload"/></svg><b id="phDropT">Choose a photo</b><span>Everything stays on your device.</span><input id="szFile-ph" type="file" accept="image/*"></label><div id="phOpts"></div><p class="err" id="phErr" role="alert"></p><canvas id="phCv" hidden></canvas><div id="phOut"></div></div>
+   <div role="tabpanel" id="szp-pm" aria-labelledby="szt-pm" hidden><label class="drop" id="szDrop-pm" for="szFile-pm"><svg class="ic" aria-hidden="true"><use href="#i-upload"/></svg><b>Choose PDFs or drop them here</b><span>Merge files, keep only some pages, rotate and reorder. Up to 20 files.</span><input id="szFile-pm" type="file" accept="application/pdf,.pdf" multiple></label><ul class="pmlist" id="pmList" aria-label="PDF files to combine"></ul><p class="hint" id="pmHint" hidden>Pages: leave blank for all, or type a list like 1-3, 5, 8-10. Pages you leave out are deleted. Use the arrows to change the file order.</p><div class="row"><label class="check"><input type="checkbox" id="pmNum"> Add page numbers</label><div class="field"><label for="pmWm">Watermark text (optional, Latin letters)</label><input type="text" id="pmWm" maxlength="30" autocomplete="off"></div></div><p class="err" id="szErr-pm" role="alert"></p><div class="szgo"><button type="button" class="btn primary" id="szGo-pm" disabled>Create PDF</button></div><p class="szmsg" id="szMsg-pm" role="status" aria-live="polite"></p><div class="szres" id="szRes-pm" hidden></div></div>
   </div>
   <div class="faq" style="margin-top:1rem">
    <details><summary>Which file types work, and what they turn into</summary>
@@ -1206,6 +1230,8 @@ select option:checked{background:var(--accent);color:var(--accent-ink)}
     <button class="tab" role="tab" id="bt-coach" aria-controls="bp-coach" aria-selected="false" tabindex="-1">Writing coach</button>
     <button class="tab" role="tab" id="bt-ats" aria-controls="bp-ats" aria-selected="false" tabindex="-1">ATS check</button>
     <button class="tab" role="tab" id="bt-qr" aria-controls="bp-qr" aria-selected="false" tabindex="-1">QR code</button>
+    <button class="tab" role="tab" id="bt-cover" aria-controls="bp-cover" aria-selected="false" tabindex="-1">Cover letter</button>
+    <button class="tab" role="tab" id="bt-li" aria-controls="bp-li" aria-selected="false" tabindex="-1">LinkedIn &amp; interview</button>
    </div>
    <div role="tabpanel" id="bp-content" aria-labelledby="bt-content">
     <p class="lead-s">Tick “In this version” on any role, bullet or skill to include it in the current version. Unticked items stay in your profile.</p>
@@ -1287,6 +1313,27 @@ select option:checked{background:var(--accent);color:var(--accent-ink)}
      <div class="field"><label for="qrCap">Caption</label><input type="text" id="qrCap" maxlength="32" autocomplete="off"></div>
     </div>
     <div id="qrOut"></div>
+   </div>
+   <div role="tabpanel" id="bp-cover" aria-labelledby="bt-cover" hidden>
+    <p class="lead-s">Builds a first draft from the profile you already saved. Edit the text freely, then copy or download it.</p>
+    <div class="row"><div class="field"><label for="cvCo">Company</label><input type="text" id="cvCo" autocomplete="off"></div><div class="field"><label for="cvRole">Role applied for</label><input type="text" id="cvRole" autocomplete="off"></div></div>
+    <div class="row"><div class="field"><label for="cvMgr">Hiring manager <span class="muted">(optional)</span></label><input type="text" id="cvMgr" autocomplete="off"></div><div class="field"><label for="cvTone">Tone</label><select id="cvTone"><option value="pro">Professional</option><option value="warm">Warm</option><option value="short">Short and direct</option></select></div></div>
+    <div class="field"><label for="cvWhy">Why this company? <span class="muted">(your own words, optional)</span></label><textarea id="cvWhy" style="min-height:5rem"></textarea></div>
+    <div class="acts"><button type="button" class="btn primary" id="cvGen">Write draft</button></div>
+    <div class="field" style="margin-top:1.25rem"><label for="cvOut">Cover letter</label><textarea id="cvOut"></textarea><p class="hint">Uses only what is in your profile. Add specific results and check every line before you send it.</p></div>
+    <div class="acts"><button type="button" class="btn" id="cvCopy">Copy text</button><button type="button" class="btn" id="cvDl">Download .txt</button></div>
+   </div>
+   <div role="tabpanel" id="bp-li" aria-labelledby="bt-li" hidden>
+    <p class="lead-s">Drafts from your saved profile. Nothing is invented, so edit the text and add your own results.</p>
+    <div class="field"><label for="liT">What are you looking for? <span class="muted">(optional, for example Open to data analyst roles)</span></label><input type="text" id="liT" autocomplete="off"></div>
+    <div class="acts"><button type="button" class="btn primary" id="liGen">Write LinkedIn text</button></div>
+    <div class="field" style="margin-top:1rem"><label for="liH">Headline</label><textarea id="liH" style="min-height:3.5rem"></textarea></div>
+    <div class="field"><label for="liA">About</label><textarea id="liA" style="min-height:12rem"></textarea></div>
+    <div class="acts"><button type="button" class="btn" id="liCp">Copy About</button></div>
+    <h4 style="margin-top:1.75rem">Interview questions</h4>
+    <div class="field"><label for="ivJ">Paste the job post</label><textarea id="ivJ" style="min-height:8rem"></textarea></div>
+    <div class="acts"><button type="button" class="btn primary" id="ivGen">Make practice questions</button></div>
+    <div id="ivOut"></div>
    </div>
   </div>
   <aside class="pvcol" aria-labelledby="pv-h">
@@ -3234,7 +3281,7 @@ function initSize(){
   var tabs=[].slice.call(g("szTabs").querySelectorAll(".tab"));
   function selTab(id,focus){
     tabs.forEach(function(t){var on=t.id==="szt-"+id;t.setAttribute("aria-selected",on?"true":"false");t.tabIndex=on?0:-1;if(on&&focus)t.focus()});
-    ["img","mk","pdf"].forEach(function(k){g("szp-"+k).hidden=k!==id})
+    ["img","mk","pdf","pm","ph"].forEach(function(k){g("szp-"+k).hidden=k!==id})
   }
   tabs.forEach(function(t){t.addEventListener("click",function(){selTab(t.id.replace("szt-",""))})});
   g("szTabs").addEventListener("keydown",function(e){
@@ -3867,7 +3914,8 @@ function buildPdf(c,cs,name){var j=atob(c.toDataURL("image/jpeg",.95).split(",")
  add(xr+"trailer\n<</Size 8/Root 1 0 R>>\nstartxref\n"+xo+"\n%%EOF");save(new Blob(ps,{type:"application/pdf"}),name);say("Download started: "+name)}
 $("dlTpl").onclick=function(){if(!qr)return;raster(1400,function(c){if(!c)return say("The template could not be created. Try again.",1);
  var ar=c.height/c.width,L=W("lbl").trim()||"Scan me",T=W("ttl").trim(),k=W("tpl"),ink=rgb(W("fg"))+" rg\n",g="0.55 G\n",o="",i,x,y,w,h,r,q;
- if(k==="poster"){w=340;h=w*ar;y=(W("fstyle")==="1"?700:690)-h;o=ink+(W("fstyle")==="1"?"":ptx(L,297.64,730,fit(L,58,500),"c"))+pi(297.64-w/2,y,w,h)+"0.2 g\n"+ptx(T,297.64,y-40,fit(T,22,500),"c","F2")}
+ if(k==="pay"){w=360;h=w*ar;y=640-h;o=ink+ptx("Scan to pay",297.64,730,fit("Scan to pay",64,500),"c")+pi(297.64-w/2,y,w,h)+"0.2 g\n"+(T?ptx(T,297.64,y-50,fit(T,30,500),"c"):"")+ptx("Pay with any UPI app",297.64,y-(T?80:50),16,"c","F2")}
+ else if(k==="poster"){w=340;h=w*ar;y=(W("fstyle")==="1"?700:690)-h;o=ink+(W("fstyle")==="1"?"":ptx(L,297.64,730,fit(L,58,500),"c"))+pi(297.64-w/2,y,w,h)+"0.2 g\n"+ptx(T,297.64,y-40,fit(T,22,500),"c","F2")}
  else if(k==="tent"){w=227;h=w*ar;o="[6 4] 0 d 0.6 w 0.6 G 0 420.95 m 595.28 420.95 l S [] 0 d\nq -1 0 0 -1 595.28 841.89 cm\n"+ink+ptx(L,297.64,350,fit(L,34,200),"c")+pi(297.64-w/2,330-h,w,h)+"0.2 g\n"+ptx(T,297.64,330-h-26,fit(T,16,200),"c","F2")+"Q\n"+ink+ptx(L,297.64,350,fit(L,34,200),"c")+pi(297.64-w/2,330-h,w,h)+"0.2 g\n"+ptx(T,297.64,330-h-26,fit(T,16,200),"c","F2")}
  else if(k==="card"){w=255.1;h=155.9;q=100;r=q*ar;for(i=0;i<10;i++){x=42.5+(i%2)*w;y=31.2+Math.floor(i/2)*h;o+=g+"0.5 w "+x+" "+y+" "+w+" "+h+" re S\n"+pi(x+w-q-14,y+(h-r)/2,q,r)+ink+ptx(L,x+14,y+h-44,fit(L,17,125),"l")+"0.2 g\n"+ptx(T,x+14,y+h-62,fit(T,9,125),"l","F2")}}
  else{w=127.6;q=99.2;r=q*ar;for(i=0;i<24;i++){x=42.5+(i%4)*w;y=38.2+Math.floor(i/4)*w;o+=g+"0.4 w "+x+" "+y+" "+w+" "+w+" re S\n"+pi(x+(w-q)/2,y+(w-r)/2+(T?6:0),q,r)+"0.2 g\n"+ptx(T,x+w/2,y+6,fit(T,7,w-10),"c","F2")}}
@@ -4047,6 +4095,64 @@ function init(){
   if(curV().qr.mode==="share")updateShare();
   route()
 }
+(function(){
+ var v=function(i){return $("#"+i).value.trim()};
+ function low(t){return t.charAt(0).toLowerCase()+t.slice(1)}
+ function strip(t){return t.replace(/[.\s]+$/,"")}
+ function gen(){
+  var d=resolved(),b=d.basics||{},co=v("cvCo"),ro=v("cvRole"),mg=v("cvMgr"),why=v("cvWhy"),tone=$("#cvTone").value;
+  var e=(d.exp||[])[0]||null,bl=e&&e.bullets&&e.bullets[0]?strip(String(e.bullets[0].t||"")):"";
+  var sk=(d.skills||[]).map(function(x){return x.items||""}).join(",").split(",").map(function(x){return x.trim()}).filter(Boolean).slice(0,4);
+  var P=[],g=mg?"Dear "+mg+",":"Dear Hiring Manager,";
+  var role=ro||"the open position";
+  if(tone==="short"){
+   P.push("I would like to apply for "+(ro?"the "+ro+" role":"the open role")+(co?" at "+co:"")+".");
+   if(bl)P.push("In my recent work"+(e.org?" at "+e.org:"")+", I "+low(bl)+".");
+   if(sk.length)P.push("My strengths include "+sk.join(", ")+".");
+   if(why)P.push(why);
+   P.push("My resume is attached. I would welcome a short conversation.")
+  }else{
+   P.push((tone==="warm"?"I was glad to see the ":"I am writing to apply for the ")+role+(ro?" role":"")+(co?" at "+co:"")+"."+(b.title?" My background is in "+b.title+(e&&e.org?", most recently at "+e.org:"")+".":""));
+   if(bl)P.push("In my recent work, I "+low(bl)+"."+(sk.length?" I also bring "+sk.join(", ")+".":""));
+   else if(sk.length)P.push("My strengths include "+sk.join(", ")+".");
+   P.push(why||"[Add one or two sentences on why you want to work "+(co?"at "+co:"here")+".]");
+   P.push(tone==="warm"?"Thank you for reading. I would love the chance to talk about how I can help.":"Thank you for your time and consideration. I would welcome the opportunity to discuss how I can contribute.")
+  }
+  var sig=[b.name||"[Your name]",[b.phone,b.email].filter(Boolean).join(" | "),b.city].filter(Boolean).join("\n");
+  $("#cvOut").value=[g].concat(P).join("\n\n")+"\n\n"+(tone==="warm"?"Warm regards,":"Sincerely,")+"\n"+sig
+ }
+ $("#cvGen").onclick=gen;
+ $("#cvCopy").onclick=function(){var b=this,t=$("#cvOut").value;if(!t)return;copyText(t).then(function(){var o=b.textContent;b.textContent="Copied";setTimeout(function(){b.textContent=o},1500)},function(){$("#cvOut").select()})};
+ $("#cvDl").onclick=function(){var t=$("#cvOut").value;if(!t)return;var n=(v("cvCo")||"cover-letter").replace(/[^\w\-]+/g,"-").slice(0,40);dl(n+"-cover-letter.txt",new Blob([t],{type:"text/plain;charset=utf-8"}))}
+})();
+(function(){
+ var v=function(i){return $("#"+i).value.trim()};
+ var SW="about with from that this will have your their they them been were what when where which while into over under such more most also able must should would could need needs work working team teams role roles year years experience strong skills ability using use used including include other than then based well like make good new help join looking candidate candidates company responsibilities requirements preferred required plus knowledge understanding across within"+"".split(" ");
+ var STOP={};SW.split(" ").forEach(function(w){STOP[w]=1});
+ $("#liGen").onclick=function(){
+  var d=resolved(),b=d.basics||{},ti=b.title||"",tg=v("liT"),e=(d.exp||[])[0],
+   sk=(d.skills||[]).map(function(x){return x.items||""}).join(",").split(",").map(function(x){return x.trim()}).filter(Boolean);
+  $("#liH").value=[ti,sk.slice(0,3).join(" | "),tg].filter(Boolean).join(" | ").slice(0,220);
+  var P=[];
+  P.push(d.summary&&d.summary.trim()?d.summary.trim():(ti?"I work as "+ti+(e&&e.org?" at "+e.org:"")+".":""));
+  var bl=e&&e.bullets?e.bullets.slice(0,3).map(function(x){return"• "+String(x.t||"").trim()}).filter(function(x){return x.length>2}):[];
+  if(bl.length)P.push("Recent work:\n"+bl.join("\n"));
+  if(sk.length)P.push("Skills: "+sk.slice(0,8).join(", ")+".");
+  P.push(tg?tg+". Message me if you would like to connect.":"Message me if you would like to connect.");
+  $("#liA").value=P.filter(Boolean).join("\n\n")};
+ $("#liCp").onclick=function(){var b=this,t=$("#liA").value;if(t)copyText(t).then(function(){var o=b.textContent;b.textContent="Copied";setTimeout(function(){b.textContent=o},1500)})};
+ $("#ivGen").onclick=function(){
+  var t=$("#ivJ").value.toLowerCase(),f={},sk=(resolved().skills||[]).map(function(x){return x.items||""}).join(",").split(",").map(function(x){return x.trim().toLowerCase()}).filter(Boolean);
+  (t.match(/[a-z][a-z+#.\-]{2,}/g)||[]).forEach(function(w){w=w.replace(/[.\-]+$/,"");if(w.length>3&&!STOP[w])f[w]=(f[w]||0)+1});
+  sk.forEach(function(k){if(t.indexOf(k)>-1)f[k]=(f[k]||0)+5});
+  var K=Object.keys(f).sort(function(a,b){return f[b]-f[a]}).slice(0,6);
+  var Q=["Tell me about yourself and why you are applying for this role.","What is your strongest skill for this role? Give one result that proves it."];
+  K.forEach(function(k,i){Q.push(i%2?"How would you explain "+k+" to a teammate who is new to it?":"Tell me about a time you used "+k+". What was your part and what was the result?")});
+  Q.push("Describe a time you handled a tight deadline or a disagreement.","What questions do you have for us?");
+  var o=$("#ivOut");o.textContent="";
+  if(!t.trim()){o.textContent="Paste the job post first.";return}
+  Q.forEach(function(q,i){var d=document.createElement("div"),b=document.createElement("b"),a=document.createElement("textarea");d.className="qa";b.textContent=(i+1)+". "+q;a.setAttribute("aria-label","Your answer to question "+(i+1));a.placeholder="Write your answer here. Not saved.";d.appendChild(b);d.appendChild(a);o.appendChild(d)})};
+})();
 init();
 })();
 </script>
@@ -4229,6 +4335,149 @@ window.addEventListener("hashchange",later);
 document.addEventListener("click",function(e){if(openW&&e.composedPath().indexOf(openW)<0)openW._c()});
 new MutationObserver(function(ml){ml.forEach(function(m){[].forEach.call(m.addedNodes,scan)})}).observe(document.body,{childList:true,subtree:true});
 scan(document.body)
+})();
+</script>
+<script>
+(function(){
+var g=function(i){return document.getElementById(i)};
+/* Exam presets */
+var P={photo:{w:276,h:354,min:20,max:50},p2:{w:200,h:230,min:20,max:50},sig:{w:140,h:60,min:"",max:20}};
+function set(id,val,ev){var e=g(id);if(!e)return;e.value=val;e.dispatchEvent(new Event(ev||"input",{bubbles:true}));e.dispatchEvent(new Event("change",{bubbles:true}))}
+[].forEach.call(document.querySelectorAll("#szPre .pchip"),function(c){c.addEventListener("click",function(){
+ var p=P[c.dataset.p];set("szT-img",p.max);set("szU-img","KB");set("szMin-img",p.min);set("szFmt-img","image/jpeg");set("szMode-img","exact");set("szW-img",p.w);set("szH-img",p.h);set("szFit-img","crop");
+ [].forEach.call(document.querySelectorAll("#szPre .pchip"),function(x){x.setAttribute("aria-pressed",x===c?"true":"false")})})});
+/* Merge and split PDF */
+var F=[],busy=false,url=null,MAXF=20,MAXB=100*1048576;
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function err(t){g("szErr-pm").textContent=t||""}
+function note(t){g("szMsg-pm").textContent=t||""}
+function lib(){return window.PDFLib?Promise.resolve():new Promise(function(ok,no){var s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js";s.crossOrigin="anonymous";s.referrerPolicy="no-referrer";s.onload=ok;s.onerror=function(){no(new Error("lib"))};document.head.appendChild(s)})}
+function fmt(n){return n<1e6?(n/1e3).toFixed(n<1e4?2:1)+" KB":(n/1e6).toFixed(2)+" MB"}
+function render(){
+ var l=g("pmList");l.innerHTML=F.map(function(f,i){return'<li><div class="nm" title="'+esc(f.name)+'">'+esc(f.name)+'<small>'+f.n+(f.n===1?" page":" pages")+'</small></div><div class="ctl"><button type="button" data-a="up" data-i="'+i+'" aria-label="Move up"'+(i?"":" disabled")+'>↑</button><button type="button" data-a="dn" data-i="'+i+'" aria-label="Move down"'+(i<F.length-1?"":" disabled")+'>↓</button><button type="button" data-a="rm" data-i="'+i+'" aria-label="Remove file">×</button></div><div class="meta"><div><label class="sr" for="pmR-'+i+'">Pages to keep</label><input type="text" id="pmR-'+i+'" data-i="'+i+'" data-f="range" placeholder="All pages, or 1-3, 5" value="'+esc(f.range)+'" autocomplete="off"></div><div><label class="sr" for="pmT-'+i+'">Rotate</label><select id="pmT-'+i+'" data-i="'+i+'" data-f="rot"><option value="0">No rotation</option><option value="90">Rotate 90° right</option><option value="180">Rotate 180°</option><option value="270">Rotate 90° left</option></select></div></div></li>'}).join("");
+ F.forEach(function(f,i){g("pmT-"+i).value=f.rot});
+ g("pmHint").hidden=!F.length;g("szGo-pm").disabled=busy||!F.length
+}
+g("pmList").addEventListener("click",function(e){var b=e.target.closest("button[data-a]");if(!b)return;var i=+b.dataset.i,a=b.dataset.a;
+ if(a==="rm")F.splice(i,1);else{var j=a==="up"?i-1:i+1;if(j<0||j>=F.length)return;var t=F[i];F[i]=F[j];F[j]=t}
+ clearRes();render()});
+function onField(e){var t=e.target;if(!t.dataset||t.dataset.f==null)return;F[+t.dataset.i][t.dataset.f]=t.value;clearRes()}
+g("pmList").addEventListener("input",onField);g("pmList").addEventListener("change",onField);
+function clearRes(){if(url){URL.revokeObjectURL(url);url=null}var r=g("szRes-pm");r.hidden=true;r.innerHTML="";err("");note("")}
+async function add(files){
+ clearRes();var bad=[];
+ try{await lib()}catch(x){return err("The PDF library could not load. Check your connection and try again.")}
+ for(var k=0;k<files.length;k++){var f=files[k];
+  if(F.length>=MAXF){bad.push("Only "+MAXF+" files at a time.");break}
+  if(!/pdf$/i.test(f.type)&&!/\.pdf$/i.test(f.name)){bad.push(f.name+" is not a PDF.");continue}
+  if(f.size>MAXB){bad.push(f.name+" is over 100 MB.");continue}
+  try{var buf=await f.arrayBuffer(),d=await PDFLib.PDFDocument.load(buf);F.push({name:f.name,buf:buf,n:d.getPageCount(),range:"",rot:"0"})}
+  catch(x){bad.push(f.name+" could not be opened. It may be locked or damaged.")}}
+ if(bad.length)err(bad.join(" "));render()}
+g("szFile-pm").addEventListener("change",function(){add([].slice.call(this.files));this.value=""});
+var dz=g("szDrop-pm");["dragover","dragenter"].forEach(function(t){dz.addEventListener(t,function(e){e.preventDefault();dz.classList.add("over")})});
+["dragleave","drop"].forEach(function(t){dz.addEventListener(t,function(e){e.preventDefault();dz.classList.remove("over");if(t==="drop"&&e.dataTransfer)add([].slice.call(e.dataTransfer.files))})});
+function parse(str,n){str=str.trim();if(!str){var a=[];for(var i=0;i<n;i++)a.push(i);return a}
+ var out=[],parts=str.split(/\s*,\s*/);
+ for(var k=0;k<parts.length;k++){var m=/^(\d+)(?:\s*-\s*(\d+))?$/.exec(parts[k]);if(!m)return null;var a1=+m[1],b1=m[2]?+m[2]:a1;if(a1<1||b1<a1||b1>n)return null;for(var x=a1;x<=b1;x++)out.push(x-1)}
+ return out}
+g("szGo-pm").addEventListener("click",async function(){
+ if(busy||!F.length)return;clearRes();
+ var plan=[];for(var i=0;i<F.length;i++){var idx=parse(F[i].range,F[i].n);if(!idx||!idx.length)return err("Check the page list for "+F[i].name+". It has "+F[i].n+" pages, so use numbers like 1-3, 5.");plan.push(idx)}
+ busy=true;g("szGo-pm").disabled=true;note("Working. Large files can take a few seconds.");
+ try{await lib();var out=await PDFLib.PDFDocument.create();
+  for(var j=0;j<F.length;j++){var src=await PDFLib.PDFDocument.load(F[j].buf),pg=await out.copyPages(src,plan[j]),rot=+F[j].rot;
+   pg.forEach(function(p){if(rot)p.setRotation(PDFLib.degrees((p.getRotation().angle+rot)%360));out.addPage(p)})}
+  var nm=g("pmNum").checked,wm=g("pmWm").value.trim();
+  if(nm||wm){var ft=await out.embedFont(PDFLib.StandardFonts.Helvetica),pgs=out.getPages();pgs.forEach(function(q,k){var w=q.getWidth(),h=q.getHeight();
+   if(nm){var t=(k+1)+" / "+pgs.length;q.drawText(t,{x:w/2-ft.widthOfTextAtSize(t,10)/2,y:18,size:10,font:ft,color:PDFLib.rgb(.3,.3,.3)})}
+   if(wm){var z=Math.min(80,w*.9/(wm.length*.62+1));q.drawText(wm,{x:w*.18,y:h*.3,size:z,font:ft,color:PDFLib.rgb(.5,.5,.5),opacity:.3,rotate:PDFLib.degrees(40)})}})}
+  var bytes=await out.save(),blob=new Blob([bytes],{type:"application/pdf"});url=URL.createObjectURL(blob);
+  var r=g("szRes-pm");r.hidden=false;r.innerHTML='<p><b>Done.</b> '+out.getPageCount()+' pages, '+fmt(blob.size)+'.</p><div class="szgo"><a class="btn primary" id="pmDl" href="'+url+'" download="luceel-merged.pdf">Download PDF</a></div>'}
+ catch(x){err("The PDF could not be created. Try again, or remove a file that may be damaged.")}
+ busy=false;note("");g("szGo-pm").disabled=!F.length})
+})();
+</script>
+<script>
+(function(){
+var g=function(i){return document.getElementById(i)},C=g("phCv"),X=C.getContext("2d",{willReadFrequently:true}),src=null,file=null,fname="file",tool="stamp";
+var CD="https://cdnjs.cloudflare.com/ajax/libs/";
+function err(t){g("phErr").textContent=t||""}
+function ld(u,k){return window[k]?Promise.resolve():new Promise(function(ok,no){var e=document.createElement("script");e.src=u;e.crossOrigin="anonymous";e.referrerPolicy="no-referrer";e.onload=ok;e.onerror=function(){no(new Error("load"))};document.head.appendChild(e)})}
+function tb(t,q){return new Promise(function(r){C.toBlob(r,t,q)})}
+function save(b,n){var u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000)}
+function btns(L){var o=g("phOut");o.textContent="";var d=document.createElement("div");d.className="acts";o.appendChild(d);L.forEach(function(x,i){var b=document.createElement("button");b.type="button";b.className="btn"+(i?"":" primary");b.textContent=x[0];b.onclick=async function(){err("");try{save(await x[1](),x[2])}catch(e){err("The file could not be created. Try another file.")}};d.appendChild(b)})}
+var today=function(){var d=new Date();return String(d.getDate()).padStart(2,"0")+"/"+String(d.getMonth()+1).padStart(2,"0")+"/"+d.getFullYear()};
+var O={
+stamp:'<div class="row"><div class="field"><label for="o1">Name</label><input type="text" id="o1" maxlength="40" autocomplete="off"></div><div class="field"><label for="o2">Date</label><input type="text" id="o2" maxlength="20" autocomplete="off"></div></div><p class="hint">Adds a white strip under the photo with the name and date, as many railway and exam forms ask.</p>',
+sig:'<div class="field"><label for="o1">Ink sensitivity</label><input type="range" id="o1" min="90" max="230" value="170"></div><p class="hint">Photograph the signature on plain white paper in good light. Raise the slider if faint strokes disappear.</p>',
+pass:'<div class="field"><label for="o1">Photos on the sheet</label><select id="o1"><option value="4">4 photos</option><option value="6" selected>6 photos</option><option value="8">8 photos</option></select></div><p class="hint">Each photo is cropped to 35 × 45 mm on an A4 sheet at 300 dpi. Use a plain white or light wall, because the background is not removed.</p>',
+scan:'<div class="row"><div class="field"><label for="o1">Contrast</label><input type="range" id="o1" min="100" max="300" value="170"></div><div class="field"><label for="o2">Brightness</label><input type="range" id="o2" min="-60" max="90" value="30"></div></div><label class="check"><input type="checkbox" id="o3"> Black and white</label><p class="hint">Cleans and brightens the photo. It does not straighten the page, so hold the phone directly above it.</p>',
+heic:'<p class="hint">Converts iPhone HEIC photos to JPG so forms accept them.</p>',
+pdfimg:'<p class="hint">Saves each page (up to 30) as a PNG image.</p>',
+calc:'<div class="row"><div class="field"><label for="o1">Centimetres</label><input type="number" id="o1" step="any" min="0"></div><div class="field"><label for="o2">Inches</label><input type="number" id="o2" step="any" min="0"></div></div><div class="row"><div class="field"><label for="o3">Pixels</label><input type="number" id="o3" step="any" min="0"></div><div class="field"><label for="o4">DPI</label><input type="number" id="o4" value="300" min="1"></div></div>'};
+var DT={stamp:"Choose a photo",sig:"Choose a photo of your signature",pass:"Choose a portrait photo",scan:"Choose a photo of a document",heic:"Choose a HEIC photo",pdfimg:"Choose a PDF"};
+function setTool(){
+ tool=g("phTool").value;src=null;file=null;err("");C.hidden=true;g("phOut").textContent="";
+ g("phOpts").innerHTML=O[tool];g("phDrop").hidden=tool==="calc";g("phDropT").textContent=DT[tool]||"";
+ g("szFile-ph").accept=tool==="pdfimg"?"application/pdf,.pdf":tool==="heic"?".heic,.heif,image/heic,image/heif":"image/*";g("szFile-ph").value="";
+ if(tool==="stamp")g("o2").value=today()}
+g("phTool").addEventListener("change",setTool);setTool();
+async function onFile(f){
+ if(!f)return;file=f;fname=f.name.replace(/\.[^.]+$/,"").replace(/[^\w\-]+/g,"-").slice(0,40)||"file";err("");
+ if(tool==="heic")return heic();if(tool==="pdfimg")return pimg();
+ try{src=await createImageBitmap(f,{imageOrientation:"from-image"})}catch(e){src=null;return err("This photo could not be opened. If it is an iPhone HEIC photo, convert it with the HEIC to JPG tool first.")}
+ run()}
+g("szFile-ph").addEventListener("change",function(){onFile(this.files[0])});
+var dz=g("phDrop");["dragover","dragenter"].forEach(function(t){dz.addEventListener(t,function(e){e.preventDefault()})});dz.addEventListener("drop",function(e){e.preventDefault();if(e.dataTransfer&&e.dataTransfer.files[0])onFile(e.dataTransfer.files[0])});
+var q=0;g("phOpts").addEventListener("input",function(){if(tool==="calc")return calc();cancelAnimationFrame(q);q=requestAnimationFrame(function(){if(src)run()})});
+function run(){C.hidden=false;({stamp:stamp,sig:sig,pass:pass,scan:scan})[tool]()}
+function stamp(){var s=src,w=Math.min(s.width,1400),h=Math.round(s.height*w/s.width),b=Math.round(h*.14);C.width=w;C.height=h+b;X.fillStyle="#fff";X.fillRect(0,0,w,h+b);X.drawImage(s,0,0,w,h);X.fillStyle="#000";X.textAlign="center";X.textBaseline="middle";X.font="bold "+Math.floor(b*.34)+"px Arial,sans-serif";
+ X.fillText(g("o1").value.trim().toUpperCase(),w/2,h+b*.3,w*.94);X.fillText(g("o2").value.trim(),w/2,h+b*.72,w*.94);
+ btns([["Download JPG",function(){return tb("image/jpeg",.92)},fname+"-stamped.jpg"]])}
+function sig(){var s=src,w=Math.min(s.width,1200),h=Math.round(s.height*w/s.width);C.width=w;C.height=h;X.drawImage(s,0,0,w,h);var im=X.getImageData(0,0,w,h),d=im.data,t=+g("o1").value,x0=w,y0=h,x1=0,y1=0;
+ for(var i=0,p=0;i<d.length;i+=4,p++){var l=.299*d[i]+.587*d[i+1]+.114*d[i+2],a=Math.max(0,Math.min(1,(t-l)/45));d[i]=20;d[i+1]=30;d[i+2]=70;d[i+3]=Math.round(a*255);if(a>.3){var x=p%w,y=(p/w)|0;if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}}
+ if(x1<=x0){X.clearRect(0,0,w,h);g("phOut").textContent="";return err("No ink found. Raise the sensitivity or use a clearer photo.")}
+ x0=Math.max(0,x0-10);y0=Math.max(0,y0-10);x1=Math.min(w-1,x1+10);y1=Math.min(h-1,y1+10);var cw=x1-x0+1,ch=y1-y0+1;
+ X.putImageData(im,0,0);var c=X.getImageData(x0,y0,cw,ch);C.width=cw;C.height=ch;X.putImageData(c,0,0);
+ btns([["Download transparent PNG",function(){return tb("image/png")},fname+"-signature.png"]])}
+function pass(){var n=+g("o1").value,s=src,PW=413,PH=531,k=document.createElement("canvas");k.width=PW;k.height=PH;var u=k.getContext("2d");u.fillStyle="#fff";u.fillRect(0,0,PW,PH);
+ var r=PW/PH,w=s.width,h=s.height,cw=w/h>r?h*r:w,ch=w/h>r?h:w/r;u.drawImage(s,(w-cw)/2,(h-ch)/4,cw,ch,0,0,PW,PH);
+ var W=2480,H=3508,cols=n/2,gap=40,tw=cols*PW+(cols-1)*gap,x0=(W-tw)/2,y0=160;C.width=W;C.height=H;X.fillStyle="#fff";X.fillRect(0,0,W,H);
+ for(var i=0;i<n;i++){var x=x0+(i%cols)*(PW+gap),y=y0+Math.floor(i/cols)*(PH+gap);X.drawImage(k,x,y);X.strokeStyle="#bbb";X.lineWidth=2;X.strokeRect(x,y,PW,PH)}
+ btns([["Download A4 sheet (JPG)",function(){return tb("image/jpeg",.92)},fname+"-passport-sheet.jpg"]])}
+function scan(){var s=src,sc=Math.min(1,1800/Math.max(s.width,s.height)),w=Math.round(s.width*sc),h=Math.round(s.height*sc);C.width=w;C.height=h;X.drawImage(s,0,0,w,h);var im=X.getImageData(0,0,w,h),d=im.data,c=+g("o1").value/100,b=+g("o2").value,bw=g("o3").checked;
+ for(var i=0;i<d.length;i+=4){var v=((.299*d[i]+.587*d[i+1]+.114*d[i+2])-128)*c+128+b;if(bw)v=v>150?255:0;v=v<0?0:v>255?255:v;d[i]=d[i+1]=d[i+2]=v}X.putImageData(im,0,0);
+ btns([["Download PDF",async function(){var jb=await tb("image/jpeg",.85);await ld(CD+"pdf-lib/1.17.1/pdf-lib.min.js","PDFLib");var D=await PDFLib.PDFDocument.create(),im=await D.embedJpg(await jb.arrayBuffer()),pw=595.28,ph=841.89,k=Math.min(pw/im.width,ph/im.height)*.96,pg=D.addPage([pw,ph]);pg.drawImage(im,{x:(pw-im.width*k)/2,y:(ph-im.height*k)/2,width:im.width*k,height:im.height*k});return new Blob([await D.save()],{type:"application/pdf"})},fname+"-scan.pdf"],["Download JPG",function(){return tb("image/jpeg",.88)},fname+"-scan.jpg"]])}
+function heic(){btns([["Convert and download JPG",async function(){await ld(CD+"heic2any/0.0.4/heic2any.min.js","heic2any");var r=await window.heic2any({blob:file,toType:"image/jpeg",quality:.9});return Array.isArray(r)?r[0]:r},fname+".jpg"]])}
+async function pimg(){g("phOut").textContent="Reading pages…";try{await ld(CD+"pdf.js/3.11.174/pdf.min.js","pdfjsLib");pdfjsLib.GlobalWorkerOptions.workerSrc=CD+"pdf.js/3.11.174/pdf.worker.min.js";
+ var doc=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise,n=Math.min(doc.numPages,30),L=[];
+ for(var i=1;i<=n;i++){var pg=await doc.getPage(i),vp=pg.getViewport({scale:1.6});C.width=vp.width;C.height=vp.height;await pg.render({canvasContext:X,viewport:vp}).promise;var bl=await tb("image/png");L.push(["Page "+i+" (PNG)",(function(b){return function(){return Promise.resolve(b)}})(bl),fname+"-page-"+i+".png"])}
+ C.hidden=false;btns(L);if(doc.numPages>n)err("Only the first 30 pages are shown.")}catch(e){g("phOut").textContent="";err("This PDF could not be read. It may be locked or damaged.")}}
+function calc(){var a=g("o1"),b=g("o2"),p=g("o3"),d=+g("o4").value||300,el=document.activeElement.id,f=function(n){return String(Math.round(n*100)/100)};
+ if(el==="o1"){var i=+a.value/2.54;b.value=a.value===""?"":f(i);p.value=a.value===""?"":f(i*d)}
+ else if(el==="o2"){b.value;a.value=b.value===""?"":f(+b.value*2.54);p.value=b.value===""?"":f(+b.value*d)}
+ else if(el==="o3"){var j=+p.value/d;b.value=p.value===""?"":f(j);a.value=p.value===""?"":f(j*2.54)}
+ else if(el==="o4"&&b.value!==""){p.value=f(+b.value*d)}}
+/* Mark: quick links */
+var T=g("qlT");if(T){
+ var M={wa:["Phone number with country code","919876543210","Use digits only, with the country code and no plus sign. Customers tap the code and a chat opens."],rv:["Google Place ID","ChIJ…","Find your Place ID with Google’s Place ID Finder. The code opens the review box for your business."],mp:["Place name or address","Cafe Aroma, Banjara Hills, Hyderabad","Opens Google Maps with this search. Use the full name and area so it finds the right place."]};
+ function sync(){var m=M[T.value];g("qlAL").textContent=m[0];g("qlA").placeholder=m[1];g("qlH").textContent=m[2];g("qlMW").hidden=T.value!=="wa";g("qlE").textContent=""}
+ T.addEventListener("change",sync);sync();
+ g("qlGo").onclick=function(){var a=g("qlA").value.trim(),u;g("qlE").textContent="";
+  if(T.value==="wa"){var n=a.replace(/\D/g,"");if(n.length<8||n.length>15)return g("qlE").textContent="Enter the full number with country code, for example 919876543210.";u="https://wa.me/"+n+(g("qlM").value.trim()?"?text="+encodeURIComponent(g("qlM").value.trim()):"")}
+  else if(T.value==="rv"){if(!/^[\w\-]{10,}$/.test(a))return g("qlE").textContent="Paste the Place ID exactly as Google shows it.";u="https://search.google.com/local/writereview?placeid="+a}
+  else{if(a.length<3)return g("qlE").textContent="Enter the place name and area.";u="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(a)}
+  var i=g("url");i.value=u;i.dispatchEvent(new Event("input",{bubbles:true}));g("qlH").textContent="Added to the website address box below."}}
+/* Mark: scanner */
+var QV=g("qsV"),QR=g("qsR"),st=null;
+function show(t){QR.textContent="";var sp=document.createElement("span");sp.textContent="Found: "+t+" ";QR.appendChild(sp);var b=document.createElement("button");b.type="button";b.className="btn";b.textContent="Copy";b.onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(t).then(function(){b.textContent="Copied"})};QR.appendChild(b)}
+function det(){if(!("BarcodeDetector" in window)){QR.textContent="This browser cannot read QR codes. Try Chrome on Android or desktop.";return null}return new BarcodeDetector({formats:["qr_code"]})}
+if(g("qsF"))g("qsF").addEventListener("change",async function(){var d=det();if(!d||!this.files[0])return;try{var r=await d.detect(await createImageBitmap(this.files[0]));r.length?show(r[0].rawValue):QR.textContent="No QR code found. Try a sharper, closer photo."}catch(e){QR.textContent="That image could not be read."}this.value=""});
+if(g("qsC"))g("qsC").addEventListener("click",async function(){var d=det();if(!d)return;if(st){st.getTracks().forEach(function(t){t.stop()});st=null;QV.hidden=true;return}
+ try{st=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});QV.srcObject=st;QV.hidden=false;await QV.play();QR.textContent="Point the camera at a QR code.";
+  (async function loop(){while(st){try{var r=await d.detect(QV);if(r.length){show(r[0].rawValue);st.getTracks().forEach(function(t){t.stop()});st=null;QV.hidden=true;return}}catch(e){}await new Promise(function(z){setTimeout(z,300)})}})()}
+ catch(e){QR.textContent="The camera is not available. Allow camera access or choose a photo instead."}});
 })();
 </script>
 </body>
